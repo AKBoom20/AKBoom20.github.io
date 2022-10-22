@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>SpringDesignPattern | AKBoom</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="Spring" />
+    
+    <meta name="description" content="Spring中的设计模式单例模式(Singleton Pattern)Ensure a class has only one instance, and provide a global point of access to it. 确保一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点。 类加载 创建类的实例，也就是new一个对象  访问某个类或接口的静态变量，或者对该静态变量赋值  调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringDesignPattern">
+<meta property="og:url" content="http://example.com/2022/10/22/SpringDesignPattern/">
+<meta property="og:site_name" content="AKBoom">
+<meta property="og:description" content="Spring中的设计模式单例模式(Singleton Pattern)Ensure a class has only one instance, and provide a global point of access to it. 确保一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点。 类加载 创建类的实例，也就是new一个对象  访问某个类或接口的静态变量，或者对该静态变量赋值  调">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/assets%5Ceffectivejava.jpg">
+<meta property="article:published_time" content="2022-10-22T05:12:41.000Z">
+<meta property="article:modified_time" content="2022-10-22T05:16:07.858Z">
+<meta property="article:author" content="AKBoom">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/assets%5Ceffectivejava.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="AKBoom" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon-A.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/AKBoom">主页</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-SpringDesignPattern" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        SpringDesignPattern
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2022/10/22/SpringDesignPattern/" class="article-date">
+       <time datetime="2022-10-22T05:12:41.000Z" itemprop="datePublished">2022-10-22</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2022/10/22/SpringDesignPattern/" class="article-date">
+     <time datetime="2022-10-22T05:16:07.858Z" itemprop="dateModified">2022-10-22</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Spring/" rel="tag">Spring</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h2 id="Spring中的设计模式"><a href="#Spring中的设计模式" class="headerlink" title="Spring中的设计模式"></a>Spring中的设计模式</h2><h3 id="单例模式-Singleton-Pattern"><a href="#单例模式-Singleton-Pattern" class="headerlink" title="单例模式(Singleton Pattern)"></a>单例模式(Singleton Pattern)</h3><p><font color=red>Ensure a class has only one instance, and provide a global point of access to it.</font></p>
+<p>确保一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点。</p>
+<h4 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h4><ol>
+<li><p>创建类的实例，也就是new一个对象</p>
+</li>
+<li><p>访问某个类或接口的静态变量，或者对该静态变量赋值</p>
+</li>
+<li><p>调用类的静态方法</p>
+</li>
+<li><p>反射（Class.forName(“com.lyj.load”)）</p>
+</li>
+<li><p>初始化一个类的子类（会首先初始化子类的父类）</p>
+</li>
+<li><p>JVM启动时标明的启动类，即文件名和类名相同的那个类 只有这6中情况才会导致类的类的初始化。</p>
+</li>
+</ol>
+<h4 id="三种反射的区别"><a href="#三种反射的区别" class="headerlink" title="三种反射的区别"></a>三种反射的区别</h4><ul>
+<li><p>类名.class：JVM将使用类装载器，将类装入内存(前提是:类还没有装入内存)，不做类的初始化工作，返回Class的对象。</p>
+</li>
+<li><p>Class.forName(“类名字符串”)：装入类，并做类的静态初始化，返回Class的对象。</p>
+</li>
+<li><p>实例对象.getClass()：对类进行静态初始化、非静态初始化；返回引用运行时真正所指的对象(子对象的引用会赋给父对象的引用变量中)所属的类的Class的对象。</p>
+</li>
+</ul>
+<h4 id="饿汉式单例模式"><a href="#饿汉式单例模式" class="headerlink" title="饿汉式单例模式"></a>饿汉式单例模式</h4><p>类加载的时候就立即初始化，并且创建单例对象。它是绝对的线程安全、在线程还没出现以前就实现了，不可能存在访问安全问题。</p>
+<p>类加载的时候就初始化单例对象了，用不用都进行，浪费内存</p>
+<ul>
+<li>写法1</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写法1</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HungrySingleton</span> &#123;</span><br><span class="line">    <span class="comment">//在类内部就初始化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">HungrySingleton</span> <span class="variable">singleton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HungrySingleton</span>();</span><br><span class="line">    <span class="comment">//构造函数私有 外部不能访问</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">HungrySingleton</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello,I am a HungrySingleton!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//全局访问点</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> HungrySingleton <span class="title function_">getSingleton</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>写法2</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">     <span class="comment">//静态代码块</span></span><br><span class="line">     <span class="keyword">static</span> &#123;</span><br><span class="line">         instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">private</span> <span class="title function_">Singleton</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> instance;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="懒汉式单例模式"><a href="#懒汉式单例模式" class="headerlink" title="懒汉式单例模式"></a>懒汉式单例模式</h4><ul>
+<li>简单懒汉写法</li>
+</ul>
+<p>多线程不安全</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//简单懒汉写法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LazySingleton</span> &#123;</span><br><span class="line">    <span class="comment">//静态类对象 一开始并不初始化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">LazySingleton</span> <span class="variable">singleton</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//构造函数私有 外界不能访问</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">LazySingleton</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> LazySingleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="literal">null</span>) &#123;</span><br><span class="line">            singleton = <span class="keyword">new</span> <span class="title class_">LazySingleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Double-Check写法</li>
+</ul>
+<p>阻塞大量线程，性能下降</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Double-Check写法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> LazySingleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (LazySingleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (singleton == <span class="literal">null</span>) &#123;</span><br><span class="line">                    singleton = <span class="keyword">new</span> <span class="title class_">LazySingleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>内部类</li>
+</ul>
+<p>可以被反射和序列化破坏</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//内部类写法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LazyInnerClassSingleton</span> &#123;</span><br><span class="line">    <span class="comment">//私有的构造函数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">LazyInnerClassSingleton</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> LazyInnerClassSingleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> LazyHolder.singleton;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//外部类加载时,静态内部类并不加载</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">LazyHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">LazyInnerClassSingleton</span> <span class="variable">singleton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LazyInnerClassSingleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="枚举式单例模式"><a href="#枚举式单例模式" class="headerlink" title="枚举式单例模式"></a>枚举式单例模式</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36448587/article/details/107253971">https://blog.csdn.net/qq_36448587/article/details/107253971</a></p>
+<p><img src="/assets%5Ceffectivejava.jpg"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">EnumSingleton</span> &#123;</span><br><span class="line">    <span class="comment">//枚举单例 </span></span><br><span class="line">    SINGLETON;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="容器式单例模式"><a href="#容器式单例模式" class="headerlink" title="容器式单例模式"></a>容器式单例模式</h4><p>非线程安全</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ContainerSingleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">ContainerSingleton</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="comment">//ConcurrentHashMap是HashMap的升级版 HashMap是线程不安全的 而ConcurrentHashMap是线程安全</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Object&gt; ioc = <span class="keyword">new</span> <span class="title class_">ConcurrentHashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getBean</span><span class="params">(String className)</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (ioc) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!ioc.containsKey(className)) &#123;</span><br><span class="line">                <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    o = Class.forName(className).newInstance();</span><br><span class="line">                    ioc.put(className, o);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> ioc.get(className);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Spring中的单例"><a href="#Spring中的单例" class="headerlink" title="Spring中的单例"></a>Spring中的单例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> &lt;T&gt; T <span class="title function_">doGetBean</span><span class="params">(String name, <span class="meta">@Nullable</span> Class&lt;T&gt; requiredType, <span class="meta">@Nullable</span> Object[] args, <span class="type">boolean</span> typeCheckOnly)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">  			<span class="comment">//对Bean的名字进行处理 防止有非法字符等</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">beanName</span> <span class="operator">=</span> <span class="built_in">this</span>.transformedBeanName(name);</span><br><span class="line">  			<span class="comment">//调用getSingleton方法从获取bean单例</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">sharedInstance</span> <span class="operator">=</span> <span class="built_in">this</span>.getSingleton(beanName);</span><br><span class="line"> 	 			Object bean;</span><br><span class="line">  			<span class="comment">//如果获取到了单例的bean</span></span><br><span class="line">        <span class="keyword">if</span> (sharedInstance != <span class="literal">null</span> &amp;&amp; args == <span class="literal">null</span>) &#123;          </span><br><span class="line">       	......</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.isPrototypeCurrentlyInCreation(beanName)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BeanCurrentlyInCreationException</span>(beanName);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">BeanFactory</span> <span class="variable">parentBeanFactory</span> <span class="operator">=</span> <span class="built_in">this</span>.getParentBeanFactory();</span><br><span class="line">            <span class="keyword">if</span> (parentBeanFactory != <span class="literal">null</span> &amp;&amp; !<span class="built_in">this</span>.containsBeanDefinition(beanName))&#123;</span><br><span class="line">              ......</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> bean;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; singletonObjects = <span class="keyword">new</span> <span class="title class_">ConcurrentHashMap</span>(<span class="number">256</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, ObjectFactory&lt;?&gt;&gt; singletonFactories = <span class="keyword">new</span> <span class="title class_">HashMap</span>(<span class="number">16</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; earlySingletonObjects = <span class="keyword">new</span> <span class="title class_">ConcurrentHashMap</span>(<span class="number">16</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> Object <span class="title function_">getSingleton</span><span class="params">(String beanName, <span class="type">boolean</span> allowEarlyReference)</span> &#123;</span><br><span class="line"> <span class="comment">//首先从singletonObjects中获取单例对象（一级缓存）       </span></span><br><span class="line">  <span class="type">Object</span> <span class="variable">singletonObject</span> <span class="operator">=</span> <span class="built_in">this</span>.singletonObjects.get(beanName);</span><br><span class="line">  <span class="comment">//如果没有获取到 并且此单例没有在创建 </span></span><br><span class="line">  <span class="comment">//isSingletonCurrentlyInCreation的作用判断这个beanName是不是正在创建，也就是判断是不是循环依赖了。</span></span><br><span class="line">        <span class="keyword">if</span> (singletonObject == <span class="literal">null</span> &amp;&amp; <span class="built_in">this</span>.isSingletonCurrentlyInCreation(beanName)) &#123;</span><br><span class="line">          <span class="comment">//从earlySingletonObjects中获取（二级缓存）</span></span><br><span class="line">            singletonObject = <span class="built_in">this</span>.earlySingletonObjects.get(beanName);</span><br><span class="line">            <span class="keyword">if</span> (singletonObject == <span class="literal">null</span> &amp;&amp; allowEarlyReference) &#123;</span><br><span class="line">                <span class="keyword">synchronized</span>(<span class="built_in">this</span>.singletonObjects) &#123;</span><br><span class="line">                    singletonObject = <span class="built_in">this</span>.singletonObjects.get(beanName);</span><br><span class="line">                    <span class="keyword">if</span> (singletonObject == <span class="literal">null</span>) &#123;</span><br><span class="line">                        singletonObject = <span class="built_in">this</span>.earlySingletonObjects.get(beanName);</span><br><span class="line">                        <span class="keyword">if</span> (singletonObject == <span class="literal">null</span>) &#123;</span><br><span class="line">                          <span class="comment">//从singletonFactories中获取</span></span><br><span class="line">                            ObjectFactory&lt;?&gt; singletonFactory = (ObjectFactory)<span class="built_in">this</span>.singletonFactories.get(beanName);</span><br><span class="line">                            <span class="keyword">if</span> (singletonFactory != <span class="literal">null</span>) &#123;</span><br><span class="line">                                singletonObject = singletonFactory.getObject();</span><br><span class="line">                                <span class="built_in">this</span>.earlySingletonObjects.put(beanName, singletonObject);</span><br><span class="line">                                <span class="built_in">this</span>.singletonFactories.remove(beanName);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> singletonObject;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>单例的获取顺利是<strong>singletonObjects ——&gt;earlySingletonObjects ——&gt;singletonFactories</strong> 这样的三级层次。</p>
+<p>在singletonObjects 中获取bean的时候，没有使用synchronized关键字，而在singletonFactories 和earlySingletonObjects 中的操作都是在synchronized代码块中完成的，正好和他们各自的数据类型对应，singletonObjects 使用的使用ConcurrentHashMap线程安全，而singletonFactories 和earlySingletonObjects 使用的是HashMap，线程不安全。</p>
+<p>从字面意思来说：singletonObjects指单例对象的cache，singletonFactories指单例对象工厂的cache，earlySingletonObjects指提前曝光的单例对象的cache。以上三个cache构成了三级缓存，Spring就用这三级缓存巧妙的解决了循环依赖问题。</p>
+<p><strong>Spring创建bean是线程安全的，不代表bean的使用是线程安全的。Spring中bean没有使用任何的线程安全措施，对单例且有状态的bean是不安全的，prototype多例的bean和无状态的bean是线程安全的。</strong></p>
+<h3 id="适配器模式-Adapter-Pattern-x2F-Wrapper"><a href="#适配器模式-Adapter-Pattern-x2F-Wrapper" class="headerlink" title="适配器模式(Adapter Pattern&#x2F;Wrapper)"></a>适配器模式(Adapter Pattern&#x2F;Wrapper)</h3><p><font color=red>Convert the inface of a class into another interface clients expect.Adapter lets classes work together that couldn’t otherwise because of incompatible interface.</font></p>
+<p>将一个类的接口变换成客户端所期待的另一种接口，从而使原本因接口不匹配而无法在一起工作的两个类能够在一起工作.</p>
+<p><em><u>”没有什么问题是加一层不能解决的“</u></em></p>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>更好的<strong>复用性</strong>：系统需要使用现有的类，但是此类的接口不符合系统需要。那么通过适配器模式就可以让这些功能得到更好的复用（原有的功能不需要再实现一遍）</li>
+<li>更好的<strong>扩展性</strong>：在实现适配器功能的时候，可以调用自己开发的功能，从而自然地扩展系统的功能（不用修改原有代码）</li>
+</ul>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><p>过多的使用适配器，会使系统非常凌乱，不易整体进把握。</p>
+<h4 id="类适配器"><a href="#类适配器" class="headerlink" title="类适配器"></a>类适配器</h4><p><img src="/assets%5C%E7%B1%BB%E9%80%82%E9%85%8D%E5%99%A8.jpg"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Target</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adaptee</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">specificRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;specificRequest...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adapter</span> <span class="keyword">extends</span> <span class="title class_">Adaptee</span> <span class="keyword">implements</span> <span class="title class_">Target</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span> &#123;</span><br><span class="line">        specificRequest();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="对象适配器"><a href="#对象适配器" class="headerlink" title="对象适配器"></a>对象适配器</h4><p><img src="/assets%5C%E5%AF%B9%E8%B1%A1%E9%80%82%E9%85%8D%E5%99%A8.jpg"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Target</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adaptee</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">specificRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;specificRequest...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adapter</span> <span class="keyword">implements</span> <span class="title class_">Target</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Adaptee adaptee;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Adapter</span><span class="params">(Adaptee adaptee)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.adaptee = adaptee;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span> &#123;</span><br><span class="line">        adaptee.specificRequest();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="缺省适配器"><a href="#缺省适配器" class="headerlink" title="缺省适配器"></a>缺省适配器</h4><p>当不需要实现一个接口所提供的所有方法时，可先设计一个抽象类实现该接口，并为接口中的每个方法提供一个默认实现(空方法)，该抽象类可以有选择性的覆盖父类的某些方法来实现需求。</p>
+<p><img src="/assets%5C%E7%BC%BA%E7%9C%81%E9%80%82%E9%85%8D%E5%99%A8.jpg"></p>
+<h4 id="双向适配器"><a href="#双向适配器" class="headerlink" title="双向适配器"></a>双向适配器</h4><p>在对象适配器中如果同时包含目标类和适配者类的引用，适配者可以通过它调用目标类中的方法，目标类也可以通过它调用适配者类中的方法</p>
+<h4 id="Spring中的适配器模式"><a href="#Spring中的适配器模式" class="headerlink" title="Spring中的适配器模式"></a>Spring中的适配器模式</h4><p>SpringAOP和SpringMVC中都有用到适配器模式。</p>
+<p>SpringAOP 中的 AdvisorAdapter 类，它有三个实现类 MethodBeforeAdviceAdapter、AfterReturningAdviceAdapter 和ThrowsAdviceAdapter。</p>
+<p><img src="/assets%5C%E9%80%82%E9%85%8D%E5%99%A8%E5%9B%BE.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//springframework--&gt;aop--&gt;framework--&gt;adapter包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Target</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AdvisorAdapter</span> &#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">supportsAdvice</span><span class="params">(Advice var1)</span>;</span><br><span class="line"></span><br><span class="line">    MethodInterceptor <span class="title function_">getInterceptor</span><span class="params">(Advisor var1)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Adapter</span></span><br><span class="line"><span class="comment">//适配MethodBeforeAdviceInterceptor 接口getInterceptor(Advisor advisor)</span></span><br><span class="line"><span class="comment">//进行一层包装 对外提供想要的方法</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MethodBeforeAdviceAdapter</span> <span class="keyword">implements</span> <span class="title class_">AdvisorAdapter</span>, Serializable &#123;</span><br><span class="line">    MethodBeforeAdviceAdapter() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">supportsAdvice</span><span class="params">(Advice advice)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> advice <span class="keyword">instanceof</span> MethodBeforeAdvice;</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MethodInterceptor <span class="title function_">getInterceptor</span><span class="params">(Advisor advisor)</span> &#123;</span><br><span class="line">        <span class="type">MethodBeforeAdvice</span> <span class="variable">advice</span> <span class="operator">=</span> (MethodBeforeAdvice)advisor.getAdvice();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MethodBeforeAdviceInterceptor</span>(advice);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Adaptee</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MethodBeforeAdvice</span> <span class="keyword">extends</span> <span class="title class_">BeforeAdvice</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">before</span><span class="params">(Method var1, Object[] var2, <span class="meta">@Nullable</span> Object var3)</span> <span class="keyword">throws</span> Throwable;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//client </span></span><br><span class="line"><span class="comment">//调用AdvisorAdapter对外暴露的接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DefaultAdvisorAdapterRegistry</span> <span class="keyword">implements</span> <span class="title class_">AdvisorAdapterRegistry</span>, Serializable &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> List&lt;AdvisorAdapter&gt; adapters = <span class="keyword">new</span> <span class="title class_">ArrayList</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DefaultAdvisorAdapterRegistry</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.registerAdvisorAdapter(<span class="keyword">new</span> <span class="title class_">MethodBeforeAdviceAdapter</span>());</span><br><span class="line">        <span class="built_in">this</span>.registerAdvisorAdapter(<span class="keyword">new</span> <span class="title class_">AfterReturningAdviceAdapter</span>());</span><br><span class="line">        <span class="built_in">this</span>.registerAdvisorAdapter(<span class="keyword">new</span> <span class="title class_">ThrowsAdviceAdapter</span>());</span><br><span class="line">    &#125;	</span><br><span class="line">    <span class="keyword">public</span> Advisor <span class="title function_">wrap</span><span class="params">(Object adviceObject)</span> <span class="keyword">throws</span> UnknownAdviceTypeException &#123;</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="comment">// 获取适配器对应的所有的拦截器</span></span><br><span class="line">    <span class="keyword">public</span> MethodInterceptor[] getInterceptors(Advisor advisor) <span class="keyword">throws</span> UnknownAdviceTypeException &#123;</span><br><span class="line">        List&lt;MethodInterceptor&gt; interceptors = <span class="keyword">new</span> <span class="title class_">ArrayList</span>(<span class="number">3</span>);</span><br><span class="line">        <span class="type">Advice</span> <span class="variable">advice</span> <span class="operator">=</span> advisor.getAdvice();</span><br><span class="line">        <span class="keyword">if</span> (advice <span class="keyword">instanceof</span> MethodInterceptor) &#123;</span><br><span class="line">            interceptors.add((MethodInterceptor)advice);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">Iterator</span> <span class="variable">var4</span> <span class="operator">=</span> <span class="built_in">this</span>.adapters.iterator();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(var4.hasNext()) &#123;</span><br><span class="line">            <span class="type">AdvisorAdapter</span> <span class="variable">adapter</span> <span class="operator">=</span> (AdvisorAdapter)var4.next();</span><br><span class="line">            <span class="keyword">if</span> (adapter.supportsAdvice(advice)) &#123;</span><br><span class="line">                interceptors.add(adapter.getInterceptor(advisor));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (interceptors.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnknownAdviceTypeException</span>(advisor.getAdvice());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (MethodInterceptor[])interceptors.toArray(<span class="keyword">new</span> <span class="title class_">MethodInterceptor</span>[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">registerAdvisorAdapter</span><span class="params">(AdvisorAdapter adapter)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.adapters.add(adapter);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="模板方法模式-Template-Method-Pattern"><a href="#模板方法模式-Template-Method-Pattern" class="headerlink" title="模板方法模式(Template Method Pattern)"></a>模板方法模式(Template Method Pattern)</h3><p><font color=red>Define the skeleton of an algorithm in an operation,deferring some steps to subclasses.Template Method lets subclass redefine certain steps of an algorithm without changing the algorithm’s  structure.</font></p>
+<p> 定义一个操作中的算法框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构即可以重定义该算法的某些特定步骤。</p>
+<h6 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h6><ul>
+<li><p>封装了不变部分，扩展可变部分。</p>
+</li>
+<li><p>在父类中提取了公共的部分代码，便于代码复用。</p>
+</li>
+<li><p>部分方法是由子类实现的，因此子类可以通过扩展方式增加相应的功能，符合开闭原则。</p>
+</li>
+</ul>
+<h6 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>对每个不同的实现都需要定义一个子类，这会导致类的个数增加，系统更加庞大，设计也更加抽象，间接地增加了系统实现的复杂度。</li>
+<li>父类中的抽象方法由子类实现，子类执行的结果会影响父类的结果，这导致一种反向的控制结构，它提高了代码阅读的难度。</li>
+<li>由于继承关系自身的缺点，如果父类添加新的抽象方法，则所有子类都要改一遍。</li>
+</ul>
+<p><img src="/assets%5C%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F.jpg"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractClass</span> &#123;</span><br><span class="line">    <span class="comment">// 共同的且繁琐的操作</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">baseOperation</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 由子类定制的操作</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">customOperation</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模板方法定义的框架</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">templateMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 调用基本方法，完成固定逻辑</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        baseOperation();</span><br><span class="line">        customOperation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomClass1</span> <span class="keyword">extends</span> <span class="title class_">AbstractClass</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">customOperation</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 具体模板1 业务逻辑</span></span><br><span class="line">        System.out.println(<span class="string">&quot;具体模板1：customOperation()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomClass2</span> <span class="keyword">extends</span> <span class="title class_">AbstractClass</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">customOperation</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 具体模板2 业务逻辑</span></span><br><span class="line">        System.out.println(<span class="string">&quot;具体模板2：customOperation()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="回调方式"><a href="#回调方式" class="headerlink" title="回调方式"></a>回调方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CallBack</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">customOperation</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SubCallBack</span> <span class="keyword">implements</span> <span class="title class_">CallBack</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">customOperation</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;callback operation1...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Template</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">baseOperation</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;模板类公共操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">templateMethod</span><span class="params">(CallBack callback)</span>&#123;</span><br><span class="line">        baseOperation();</span><br><span class="line">        callback.customOperation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="钩子函数"><a href="#钩子函数" class="headerlink" title="钩子函数"></a>钩子函数</h4><p>设计钩子方法的主要目的是干预模板方法的执行流程，使得控制行为流程更加灵活，更符合实际业务的需求。钩子方法的返回值一般为适合条件分支语句的返回值（如boolean、int等）。子类可以自行选择重写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractBasePay</span> <span class="keyword">implements</span> <span class="title class_">BasePay</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">mobilePay</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 钩子函数</span></span><br><span class="line">        <span class="keyword">if</span> (isCheckAuth()) &#123;</span><br><span class="line">            checkAuth();</span><br><span class="line">        &#125;</span><br><span class="line">        checkParam();</span><br><span class="line">        checkRisk();</span><br><span class="line">        channlePay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">checkParam</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;检查参数&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">checkAuth</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;支付权限校验&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">checkRisk</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;风控校验&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//渠道支付</span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">channlePay</span><span class="params">()</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//钩子函数，子类可以覆写，来选择手开启支付权限校验  默认不开启</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isCheckAuth</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EBankChannelPay</span> <span class="keyword">extends</span> <span class="title class_">AbstractBasePay</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">channlePay</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;网银支付&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isCheckAuth</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Spring中的模板方法模式"><a href="#Spring中的模板方法模式" class="headerlink" title="Spring中的模板方法模式"></a>Spring中的模板方法模式</h4><p>在spring源码中使用到模板模式的有以下几类（<strong>在Spring中大多数模板方式都是行为接口的定义：Callback</strong>）：</p>
+<ul>
+<li><strong>RestTemplate Http Restful接口请求模板</strong></li>
+<li><strong>AsyncRestTemplate 异步Http Restful接口请求模板</strong></li>
+<li><strong>JdbcTemplate JDBC关系型数据库操作模板</strong></li>
+<li><strong>HibernateTemplate Hibernate关系型数据库操作模板</strong></li>
+<li><strong>JmsTemplate 消息队列模板</strong></li>
+<li><strong>TransactionTemplate 编程式事务模板</strong></li>
+</ul>
+<p>带有Template的基本都是模板方法模式。</p>
+<h5 id="JdbcTemplate"><a href="#JdbcTemplate" class="headerlink" title="JdbcTemplate"></a>JdbcTemplate</h5><p>JdbcTemplate是JDBC核心软件包中的中心类。它简化了JDBC的使用，并有助于避免常见错误。它执行核心JDBC工作流程，留下应用程序代码以提供SQL并提取结果</p>
+<p>spring通过JdbcTemplate提供原生的JDBC SQL语句执行操作。JdbcTemplate和JdbcOperations均位于org.springframework.jdbc.core下.</p>
+<p>JdbcOperations提供最基本的SQL方法执行接口，JdbcTemplate负责模板方法调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ConnectionCallback</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    T <span class="title function_">doInConnection</span><span class="params">(Connection var1)</span> <span class="keyword">throws</span> SQLException, DataAccessException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; T <span class="title function_">execute</span><span class="params">(ConnectionCallback&lt;T&gt; action)</span> <span class="keyword">throws</span> DataAccessException &#123;</span><br><span class="line">        Assert.notNull(action, <span class="string">&quot;Callback object must not be null&quot;</span>);</span><br><span class="line">        <span class="type">Connection</span> <span class="variable">con</span> <span class="operator">=</span> DataSourceUtils.getConnection(<span class="built_in">this</span>.obtainDataSource());</span><br><span class="line"></span><br><span class="line">        Object var10;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">Connection</span> <span class="variable">conToUse</span> <span class="operator">=</span> <span class="built_in">this</span>.createConnectionProxy(con);</span><br><span class="line">            var10 = action.doInConnection(conToUse);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException var8) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> getSql(action);</span><br><span class="line">            DataSourceUtils.releaseConnection(con, <span class="built_in">this</span>.getDataSource());</span><br><span class="line">            con = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">this</span>.translateException(<span class="string">&quot;ConnectionCallback&quot;</span>, sql, var8);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            DataSourceUtils.releaseConnection(con, <span class="built_in">this</span>.getDataSource());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> var10;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">StatementCallback</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    T <span class="title function_">doInStatement</span><span class="params">(Statement var1)</span> <span class="keyword">throws</span> SQLException, DataAccessException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; T <span class="title function_">execute</span><span class="params">(StatementCallback&lt;T&gt; action)</span> <span class="keyword">throws</span> DataAccessException &#123;</span><br><span class="line">        Assert.notNull(action, <span class="string">&quot;Callback object must not be null&quot;</span>);</span><br><span class="line">      <span class="comment">//1.获得连接  </span></span><br><span class="line">      <span class="type">Connection</span> <span class="variable">con</span> <span class="operator">=</span> DataSourceUtils.getConnection(<span class="built_in">this</span>.obtainDataSource());</span><br><span class="line">        <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        Object var11;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//2.创建语句</span></span><br><span class="line">            stmt = con.createStatement();</span><br><span class="line">            <span class="built_in">this</span>.applyStatementSettings(stmt);</span><br><span class="line">          <span class="comment">//3.执行语句</span></span><br><span class="line">            <span class="type">T</span> <span class="variable">result</span> <span class="operator">=</span> action.doInStatement(stmt);</span><br><span class="line">            <span class="built_in">this</span>.handleWarnings(stmt);</span><br><span class="line">            var11 = result;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException var9) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> getSql(action);</span><br><span class="line">            JdbcUtils.closeStatement(stmt);</span><br><span class="line">            stmt = <span class="literal">null</span>;</span><br><span class="line">            DataSourceUtils.releaseConnection(con, <span class="built_in">this</span>.getDataSource());</span><br><span class="line">            con = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">this</span>.translateException(<span class="string">&quot;StatementCallback&quot;</span>, sql, var9);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">          <span class="comment">//4.关闭语句</span></span><br><span class="line">            JdbcUtils.closeStatement(stmt);</span><br><span class="line">          <span class="comment">//5.释放连接</span></span><br><span class="line">            DataSourceUtils.releaseConnection(con, <span class="built_in">this</span>.getDataSource());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> var11;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>子类在实现该接口时，需要实现回调接口中的<code>doInStatement</code>方法，即执行SQL的相关逻辑，这样模板方法就会因doInstatement的不同逻辑而呈现不同的功能，如查询、更新等。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://example.com/2022/10/22/SpringDesignPattern/" data-id="cl9ji9qzx0001r8unb5tw76e2" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "AKBoom"
+        },
+        "headline": "SpringDesignPattern",
+        "image": "http://example.com/assets%5Ceffectivejava.jpg",
+        "keywords": "Spring",
+        "genre": "",
+        "datePublished": "2022-10-22",
+        "dateCreated": "2022-10-22",
+        "dateModified": "2022-10-22",
+        "url": "http://example.com/2022/10/22/SpringDesignPattern/",
+        "description": "Spring中的设计模式单例模式(Singleton Pattern)Ensure a class has only one instance, and provide a global point of access to it.
+确保一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点。
+类加载
+创建类的实例，也就是new一个对象
+
+访问某个类或接口的静态变量，或者对该静态变量赋值
+
+调",
+        "wordCount": 4866
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/AKBoom20" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="https://weibo.com/AKBoom" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2022/10/18/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Hello World</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/10/22/SpringDesignPattern/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/assets%5Ceffectivejava.jpg)" alt="SpringDesignPattern" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2022/10/22/SpringDesignPattern/" class="title">SpringDesignPattern</a></p>
+                            <p class="item-date"><time datetime="2022-10-22T05:12:41.000Z" itemprop="datePublished">2022-10-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/10/18/hello-world/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2022/10/18/hello-world/" class="title">Hello World</a></p>
+                            <p class="item-date"><time datetime="2022-10-18T01:07:30.799Z" itemprop="datePublished">2022-10-18</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Spring/" style="font-size: 10px;">Spring</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2022 AKBoom</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://example.com/2022/10/22/SpringDesignPattern/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
