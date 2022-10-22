@@ -23,19 +23,19 @@
 <meta property="og:site_name" content="AKBoom">
 <meta property="og:description" content="GateWay网关功能：  身份认证和权限认证 服务路由、负载均衡 请求限流  SpringCloud网关的技术实现：  gateway zuul  Zuul是基于Servlet的实现。属于阻塞式编程。而SpringCloudGateWay则是基于Spring5中提供的WebFlux，属于响应式编程的实现，具备更好的性能。 搭建网关服务 创建新的module，引入SpringCloudGateWa">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://akboom20.github.io/assets%5CPredicateFactory.jpg">
-<meta property="og:image" content="https://akboom20.github.io/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8.jpg">
-<meta property="og:image" content="https://akboom20.github.io/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8%E5%B7%A5%E5%8E%82.jpg">
-<meta property="og:image" content="https://akboom20.github.io/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8%E9%93%BE.jpg">
-<meta property="og:image" content="https://akboom20.github.io/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8%E9%A1%BA%E5%BA%8F.jpg">
-<meta property="og:image" content="https://akboom20.github.io/assets%5CCORS%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F.jpg">
+<meta property="og:image" content="https://akboom20.github.io/2022/10/22/Gateway/PredicateFactory.jpg">
+<meta property="og:image" content="https://akboom20.github.io/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8.jpg">
+<meta property="og:image" content="https://akboom20.github.io/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8%E5%B7%A5%E5%8E%82.jpg">
+<meta property="og:image" content="https://akboom20.github.io/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8%E9%93%BE.jpg">
+<meta property="og:image" content="https://akboom20.github.io/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8%E9%A1%BA%E5%BA%8F.jpg">
+<meta property="og:image" content="https://akboom20.github.io/2022/10/22/Gateway/CORS%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F.jpg">
 <meta property="article:published_time" content="2022-10-22T07:22:33.000Z">
-<meta property="article:modified_time" content="2022-10-22T07:32:47.763Z">
+<meta property="article:modified_time" content="2022-10-22T11:48:53.483Z">
 <meta property="article:author" content="AKBoom">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Gateway">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://akboom20.github.io/assets%5CPredicateFactory.jpg">
+<meta name="twitter:image" content="https://akboom20.github.io/2022/10/22/Gateway/PredicateFactory.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -311,7 +311,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 小时前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -344,11 +344,11 @@
 </ul>
 <h4 id="路由断言工厂Route-Predicate-Factory"><a href="#路由断言工厂Route-Predicate-Factory" class="headerlink" title="路由断言工厂Route Predicate Factory"></a>路由断言工厂Route Predicate Factory</h4><p>我们在配置文件中写的断言规则只是字符串，这些字符串会被<strong>Predicate Factory</strong>读取并处理，转变为路由判断的条件。</p>
 <p>Spring提供了11种基本的Predicate工厂：</p>
-<p><img src="/assets%5CPredicateFactory.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/10/22/Gateway/PredicateFactory.jpg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="路由过滤器-GatewayFilter"><a href="#路由过滤器-GatewayFilter" class="headerlink" title="路由过滤器 GatewayFilter"></a>路由过滤器 GatewayFilter</h4><p>GatewayFilter时网关中提供的一种过滤器，可以对<strong>进入</strong>网关的请求和微服务<strong>返回</strong>的响应做处理。</p>
-<p><img src="/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>Spring中提供了31种不同的路由过滤器工厂。</p>
-<p><img src="/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8%E5%B7%A5%E5%8E%82.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8%E5%B7%A5%E5%8E%82.jpg" srcset="/img/loading.gif" lazyload></p>
 <h5 id="默认过滤器："><a href="#默认过滤器：" class="headerlink" title="默认过滤器："></a>默认过滤器：</h5><p>如果要对所有的路由都生效，则可以将过滤器工厂写到<code>default-filters</code>下。</p>
 <h5 id="全局过滤器："><a href="#全局过滤器：" class="headerlink" title="全局过滤器："></a>全局过滤器：</h5><p>全局过滤器的作用也是处理一切进入网关的请求和微服务响应，与GatewayFilter的作用一样。</p>
 <p>区别在于GatewatFilter通过配置定义，处理逻辑是固定的，而GlobalFilter的逻辑需要自己写代码实现。</p>
@@ -357,14 +357,14 @@
 
 <h4 id="过滤器执行顺序"><a href="#过滤器执行顺序" class="headerlink" title="过滤器执行顺序"></a>过滤器执行顺序</h4><p>请求进入网关会碰到三类过滤器：当前路由的过滤器，DefaultFilter，GlobalFilter</p>
 <p>请求路由后，会将三种路由过滤器合并到一个过滤器链（集合）中，排序后依次执行每个过滤器。</p>
-<p><img src="/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8%E9%93%BE.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8%E9%93%BE.jpg" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>每一个过滤器都必须指定一个int类型的order值，<strong>order值越小，优先级越高，执行顺序越靠前</strong></li>
 <li>GlobalFilter通过实现Ordered接口，或者添加<code>@Order</code>注解，来指定order值，有我们自己指定</li>
 <li>路由过滤器和defaultFilter的order由Spring指定，默认是按照声明顺序从1递增</li>
 <li>当过滤器的order值一样时，会按照<strong>defaultFilter&gt;路由过滤器&gt;GlobalFilte</strong>r的顺序执行。</li>
 </ul>
-<p><img src="/assets%5C%E8%BF%87%E6%BB%A4%E5%99%A8%E9%A1%BA%E5%BA%8F.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/10/22/Gateway/%E8%BF%87%E6%BB%A4%E5%99%A8%E9%A1%BA%E5%BA%8F.jpg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="跨域问题处理"><a href="#跨域问题处理" class="headerlink" title="跨域问题处理"></a>跨域问题处理</h4><p>跨域：域名不一致就是跨域，主要包括：</p>
 <ul>
 <li>域名不同</li>
@@ -373,7 +373,7 @@
 <p>跨域问题：<strong>浏览器禁止</strong>请求的发起者与服务端发生ajax请求，请求被浏览器拦截的问题</p>
 <p>解决方案：CORS（跨域资源共享）</p>
 <p>网关处理跨域采用的同样是CORS方案，并且只需要简单的配置即可。</p>
-<p><img src="/assets%5CCORS%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/10/22/Gateway/CORS%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F.jpg" srcset="/img/loading.gif" lazyload></p>
 
                 
               </div>
