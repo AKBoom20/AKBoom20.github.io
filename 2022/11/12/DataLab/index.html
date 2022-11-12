@@ -1,0 +1,1159 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-A.ico">
+  <link rel="icon" href="/img/favicon-A.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="AKBoom">
+  <meta name="keywords" content="Cool">
+  
+    <meta name="description" content="一、实验目的本实验目的是加强学生对位级运算的理解及熟练使用的能力。 二、报告要求本报告要求学生把实验中实现的所有函数逐一进行分析说明，写出实现的依据，也就是推理过程，可以是一个简单的数学证明，也可以是代码分析，根据实现中你的想法不同而异。 三、函数分析 bitXor函数  函数要求：    函数名 bitNor    参数 int , int   功能实现 ~(x|y)   要求 只能使用 ~ 和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataLab">
+<meta property="og:url" content="https://akboom20.github.io/2022/11/12/DataLab/">
+<meta property="og:site_name" content="AKBoom">
+<meta property="og:description" content="一、实验目的本实验目的是加强学生对位级运算的理解及熟练使用的能力。 二、报告要求本报告要求学生把实验中实现的所有函数逐一进行分析说明，写出实现的依据，也就是推理过程，可以是一个简单的数学证明，也可以是代码分析，根据实现中你的想法不同而异。 三、函数分析 bitXor函数  函数要求：    函数名 bitNor    参数 int , int   功能实现 ~(x|y)   要求 只能使用 ~ 和">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-12T12:06:00.000Z">
+<meta property="article:modified_time" content="2022-11-12T12:09:53.181Z">
+<meta property="article:author" content="AKBoom">
+<meta property="article:tag" content="X86">
+<meta property="article:tag" content="汇编语言">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="CSAPP">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>DataLab - AKBoom</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"akboom20.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>AKBoom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DataLab"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        AKBoom
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-12 20:06" pubdate>
+          2022年11月12日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DataLab</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><p>本实验目的是加强学生对位级运算的理解及熟练使用的能力。</p>
+<h2 id="二、报告要求"><a href="#二、报告要求" class="headerlink" title="二、报告要求"></a>二、报告要求</h2><p>本报告要求学生把实验中实现的所有函数逐一进行分析说明，写出实现的依据，也就是推理过程，可以是一个简单的数学证明，也可以是代码分析，根据实现中你的想法不同而异。</p>
+<h2 id="三、函数分析"><a href="#三、函数分析" class="headerlink" title="三、函数分析"></a>三、函数分析</h2><ol>
+<li>bitXor函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>bitNor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int , int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>~(x|y)</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用 ~ 和&amp;，最大8个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>直接德摩根律：</p>
+<p><code>~(x|y)=~x&amp;~y</code></p>
+<p>非常简单。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">bitNor</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;<br>  <span class="hljs-keyword">return</span> ~x &amp; ~y;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>copyLSB函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>copyLSB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>将x的所有位都设置为它的最低位的值</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^ | +  &lt;&lt;  &gt;&gt;，最大5个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>分析：</strong></p>
+<p>利用有符号数的右移拓展符号位，左移补0的性质，先将最后一位移到符号位，然后再移到最低位。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">copyLSB</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br><br>  <span class="hljs-keyword">return</span> ((x &lt;&lt; <span class="hljs-number">31</span>)&gt;&gt;<span class="hljs-number">31</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>isEqual函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>isEqual(x, y)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int , int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>x&#x3D;&#x3D;y返回1，否则返回0</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^ | + &lt;&lt; &gt;&gt;，最大5个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>直接使用异或逻辑即可。相同为0，相异为1.</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">isEqual</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;<br>  <span class="hljs-keyword">return</span> !(x ^ y);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>bitMask函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>bitMask(highbit, lowbit)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int , int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>生成一个掩码，lowbit位至highbit位均为1</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^ | + &lt;&lt; &gt;&gt;，最大16个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>用移位操作，先将最高位到lowbit位全都置为1，其他位为0，然后将highbit位到0最低为全都置为1，其他位置0。两者与运算，正好留下中间的lowbit位到highbit位全为1。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">bitMask</span><span class="hljs-params">(<span class="hljs-type">int</span> highbit, <span class="hljs-type">int</span> lowbit)</span> &#123;<br>  <span class="hljs-keyword">return</span> (~<span class="hljs-number">0</span>&lt;&lt;lowbit) &amp; ((~<span class="hljs-number">0</span>)+(<span class="hljs-number">1</span>&lt;&lt;highbit&lt;&lt;<span class="hljs-number">1</span>)) ;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>bitCount函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>bitCount(int x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>计算x中1的数目</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^ | + &lt;&lt; &gt;&gt;，最大40个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>一开始的想法是将x右移，统计最低位是1的次数，然后将结果加起来，但是很明显超过了最大40个操作数，而且代码很长。事实上不需要一次一次的加，可以将每2位作为一组，统计2位中1的个数，例如1101，前两位有2个1，后两位有1个1，最后加起来即可。所以可以这样分组<code>[11][01]</code>，为了让<code>[11]</code>中的两个1相加，可以将<code>[11]</code>和01相与，得到第0位的1，然后将<code>[11]</code>右移一位，得到第1位的1，相加，就得到2。所以1101第一次统计得到的数是这样的：<code>[10][01]</code>代表高两位有2个1，低两位有1个1。然后再把这两组数相加，就能得到3。怎么加，还是一样的，不同的是这次要把<code>[10]</code>与<code>[01]</code>相加，而不是<code>[]</code>的内部相加，也就是现在应该2个数当作一个单位。为了相加，先取低两位，即把1001和0011相与，得到<code>[0001]</code>然后将1001右移两位，同样与0011相与，得到高两位<code>[0010]</code>，最后这两个数对齐相加即可，得到<code>[0011]</code>就是最终结果了。</p>
+<p>按照这个原理就可以实现了。依次是1位一组相加，2位一组相加，4位一组相加，8位一组相加，16位一组相加。最后得到结果。所以依次要和0x55555555，0x33333333，0x0f0f0f0f0f0f0f0f，0x0000ffff，0xffffffff。</p>
+<p>但是不能直接使用32位表示，需要利用移位和或运算先构造出上面几个32位数，然后按照</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">bitCount</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>  <span class="hljs-type">int</span> mask1 = <span class="hljs-number">0x55</span> &lt;&lt; <span class="hljs-number">8</span> | <span class="hljs-number">0x55</span>;<br>  <span class="hljs-type">int</span> mask2 = <span class="hljs-number">0x33</span> &lt;&lt; <span class="hljs-number">8</span> | <span class="hljs-number">0x33</span>;<br>  <span class="hljs-type">int</span> mask4 = <span class="hljs-number">0x0f</span> &lt;&lt;<span class="hljs-number">8</span> |<span class="hljs-number">0x0f</span>;<br>  <span class="hljs-type">int</span> mask8 = <span class="hljs-number">0xff</span> &lt;&lt; <span class="hljs-number">16</span> | <span class="hljs-number">0xff</span>;<br>  <span class="hljs-type">int</span> mask16 = ~<span class="hljs-number">0</span> + (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">16</span>);<br>  mask1 |= mask1 &lt;&lt; <span class="hljs-number">16</span>;<br>  mask2 |= mask2 | mask2 &lt;&lt;<span class="hljs-number">16</span>;<br>  mask4 |= mask4 | mask4 &lt;&lt; <span class="hljs-number">16</span>;<br><br>  x = (x&amp;mask1) + ((x&gt;&gt;<span class="hljs-number">1</span>)&amp;mask1);<br>  x = (x&amp;mask2) + ((x&gt;&gt;<span class="hljs-number">2</span>)&amp;mask2);<br>  x = (x&amp;mask4) + ((x&gt;&gt;<span class="hljs-number">4</span>)&amp;mask4);<br>  x = (x&amp;mask8) + ((x&gt;&gt;<span class="hljs-number">8</span>)&amp;mask8);<br>  x = (x&amp;mask16) + ((x&gt;&gt;<span class="hljs-number">16</span>)&amp;mask16);<br><br>  <span class="hljs-keyword">return</span> x;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>tMax函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>tmax(void)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>void</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>返回最大的补码</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大4个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>最大的补码显示是0x7fffffff，只需要构造出来符号位是0的，其他全1的就可以了。还是利用移位的特性。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">tmax</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>  <span class="hljs-type">int</span> x = <span class="hljs-number">1</span>;<br>  x = x&lt;&lt;<span class="hljs-number">31</span>; <br>  <span class="hljs-keyword">return</span> ~x;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>isNonNegative函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>isNonNegative(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>如果x&gt;&#x3D;0，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大6个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>很简单，只需要判断符号位就可以了，右移31位，在和0x01相与，如果是0，则&gt;&#x3D;0，否则&lt;0</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">return</span> !(x&gt;&gt;<span class="hljs-number">31</span>&amp;<span class="hljs-number">0x01</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>addOK(x, y)函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>addOK(x,y)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int,int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>确定x+y是否不溢出</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大20个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>x+y只有在x和y同号时会溢出，溢出的结果是正正得负，负负得正，所以先把x+y得值求出来，设为z。溢出得条件是，x与y同号，x与z不同号。所以（x^y）为0，同时~(x^z)为0,同时成立，最后与0x01相与得到末位即可。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> z = x + y;<br><span class="hljs-keyword">return</span> (((x^y)|(~(x^z)))&gt;&gt;<span class="hljs-number">31</span>)&amp;<span class="hljs-number">0x01</span>;<br></code></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>rempwr2函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>rempwr2(x, n)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int,int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>计算x%(2^n)</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大20个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>对于正数来说，计算x%(2^n)很简单，直接取x的后n位就可以了，但是对于负数来说，就不能直接取后n位。所以可以先把负数转成正数，最后加个负号。例如<code>-3%2</code>可以先用<code>3%2</code>，得到1，最后加上负号变成-1。负数转成正数可以利用<code>x = (~s&amp;x) | (s&amp;(~x+1))</code>来转换。s表示将符号位拓展成32位。当s为全0，式子得到x&#x3D;x，当s为全1，得到x&#x3D;~x+1，即-x。最后加上负号的操作在利用上面的式子就可以了。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">rempwr2</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> n)</span> &#123;<br>    <span class="hljs-type">int</span> s = x&gt;&gt;<span class="hljs-number">31</span>;<br>    x = (~s&amp;x) | (s&amp;(~x+<span class="hljs-number">1</span>));<br>    x &amp;= (~<span class="hljs-number">0</span>+(<span class="hljs-number">1</span>&lt;&lt;n));<br>    <span class="hljs-keyword">return</span> ((~s)&amp;x) | (s&amp;(~x+<span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>isLess函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>isLess(x, y)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int,int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>如果x&lt;y，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大24个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>比较x与y，可以用<code>x-y</code>的符号来比较。但是必须注意的一点是符号相异的两个数做减法，可能会溢出。所以要分情况讨论，x与y同号，利用<code>x-y</code>判断；x与异号，直接判断x是不是负数。最后两种情况有1个成立即可，利用或运算。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">isLess</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;<br>  <span class="hljs-type">int</span> c1 = (~(x ^ y)&gt;&gt;<span class="hljs-number">31</span> &amp; (x + ~y + <span class="hljs-number">1</span>)&gt;&gt;<span class="hljs-number">31</span>)&amp;<span class="hljs-number">0x01</span>; <br>  <span class="hljs-type">int</span> c2 = ((x ^ y)&gt;&gt;<span class="hljs-number">31</span> &amp; x&gt;&gt;<span class="hljs-number">31</span>)&amp;<span class="hljs-number">0x01</span>;<br>  <span class="hljs-keyword">return</span> c1 | c2;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="11">
+<li>absVal函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>absVal(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>x的绝对值</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大20个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>太简单了，判断x的符号位，正数和0不用处理，负数取反，利用<code>~x+1</code>，最后取或就可以了。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">absVal</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>  <span class="hljs-type">int</span> s = x&gt;&gt;<span class="hljs-number">31</span>;<br>  <span class="hljs-keyword">return</span> (~s&amp;x) | (s&amp;(~x+<span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="12">
+<li>isPower2函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>isPower2(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>如果x是2的幂，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>只能使用! ~ &amp; ^  | + &lt;&lt; &gt;&gt; ，最大20个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>负数和0显然不是2的任何次幂，正数中，32位只有一位1的才是2的幂。如果x只有1位是1，x加上全1，x从1开始到最高位，全都变为0，最低位到原来的1所在位，全都变为1。再与原来的x想与，一定全为0。如果x不只一位为1，最高位到第一个1之间，一定会在原来的位置有一个1，最后想与，一定不为0。</p>
+<p>如果x是负数或者0，要返回0，判断符号位和<code>!!x</code>的值就行了。最后结果相与。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">isPower2</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>  <span class="hljs-type">int</span> r = (!(x&amp;(x+~<span class="hljs-number">0</span>)) ) &amp; ((~(x&gt;&gt;<span class="hljs-number">31</span>)&amp;<span class="hljs-number">0x01</span>)&amp;(!!x));<br>  <span class="hljs-keyword">return</span> r;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="13">
+<li>float_neg函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>float_neg(uf)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>计算-f</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>逻辑与或非，位操作，if，while都可以用，最多10个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>浮点数的第一位就是符号位，符号位反过来就能得到<code>-f</code>，当输入Not a Number，阶码全1，尾数非全0。将uf和0x7fffffff相与，小数位至少有一位不是0，就是NaN，此时直接返回。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">unsigned</span> <span class="hljs-title function_">float_neg</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> uf)</span> &#123;<br>  <span class="hljs-keyword">if</span>((uf&amp;<span class="hljs-number">0x7fffffff</span>) &gt; <span class="hljs-number">0x7f800000</span>) <span class="hljs-keyword">return</span> uf;<br>  <span class="hljs-keyword">return</span> uf ^ <span class="hljs-number">0x80000000</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="14">
+<li>float_half函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>float_half(uf)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>返回0.5*f的位级表示</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>逻辑与或非，位操作，if，while都可以用，最多30个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>考虑NaN和INF的特殊情况，即指数<code>exp==255</code>，<code>if((uf&amp;0x7fffffff) &gt;= 0x7f800000) </code>，返回参数。考虑为+0&#x2F;-0的情况，<code>if(!(uf&amp;0x7fffffff))</code>，返回0。</p>
+<p>规格化小数0.5若结果仍为规格化小数，这时候只需要指数-1，其他部分不变即可。<code>(uf&amp;0x807fffff)|(--exp_)&lt;&lt;23</code>。规格化小数乘以0.5，可能结果变为非规格化。即<code>exp==0</code>或<code>exp==1</code>时的情况，这时候只处理小数部分，因为非规格化小数其指数部分为0，右移一位表示乘以0.5，考虑小数舍入，此时要考虑最低两位数的想偶数进位，舍入判断<code>if((uf&amp;0x3) == 0x3) uf = uf + 0x2;</code>。只有当最低两位数为11时才需要向偶数进位舍入。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">unsigned</span> <span class="hljs-title function_">float_half</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> uf)</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-built_in">exp</span> = (uf&amp;<span class="hljs-number">0x7f800000</span>) &gt;&gt; <span class="hljs-number">23</span>;<br>  <span class="hljs-type">int</span> s = uf&amp;<span class="hljs-number">0x80000000</span>; <br>  <span class="hljs-keyword">if</span>((uf&amp;<span class="hljs-number">0x7fffffff</span>) &gt;= <span class="hljs-number">0x7f800000</span>) <span class="hljs-keyword">return</span> uf;<br>  <span class="hljs-keyword">if</span>(<span class="hljs-built_in">exp</span> &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>(uf&amp;<span class="hljs-number">0x807fffff</span>) |(--<span class="hljs-built_in">exp</span>)&lt;&lt;<span class="hljs-number">23</span>;<br>  <span class="hljs-keyword">if</span>((uf&amp;<span class="hljs-number">0x3</span>) == <span class="hljs-number">0x3</span>)uf = uf + <span class="hljs-number">0x2</span>;<br>  <span class="hljs-keyword">return</span> ((uf&gt;&gt;<span class="hljs-number">1</span>)&amp;<span class="hljs-number">0x007fffff</span>) | s;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="14">
+<li>float_i2f函数</li>
+</ol>
+<p><strong>函数要求：</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>float_i2f(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>功能实现</td>
+<td>返回(float)x的位级表示</td>
+</tr>
+<tr>
+<td>要求</td>
+<td>逻辑与或非，位操作，if，while都可以用，最多30个操作数</td>
+</tr>
+</tbody></table>
+<p><strong>实现分析：</strong></p>
+<p>分三部分处理，获取符号位<code>s_ = x&amp;0x80000000</code>，若为负数<code>-x</code>，变为正数，则<code>0x80000000</code>为特殊情况分开处理，考虑特殊情况，<code>0x0</code>和<code>0x80000000</code>，这两种情况直接返回<code>0</code>和<code>0xcf000000</code>。</p>
+<p>获取最高位的<code>1</code>所在位置，<code>while(!(x&amp;(1&lt;&lt;n_))) n_--;</code>。</p>
+<p>若<code>n_ &lt;= 23</code>这个数需要向左移动到小数部分起始位置（将<code>1</code>放在第<code>23</code>位上），<code>if(n_&lt;=23) x&lt;&lt;=(23-n_);</code>。</p>
+<p>若<code>n_ &gt; 23</code>这个数需要向右移动到小数部分起始位置（将<code>1</code>放在第<code>23</code>位上），这时候需要考虑移出部分的舍入问题，若移出部分大于<code>0.5</code>则向上舍入，若小于<code>0.5</code>则向下舍去，若等于<code>0.5</code>则向偶数舍入。</p>
+<p>先将<code>&gt;=0.5</code>情况等同考虑，向上舍入<code>x+=(1&lt;&lt;(n_-24))</code>。若<code>==0.5</code>时，舍入情况若为奇数，我们需要<code>-1</code>操作变为偶数，即将最低位的<code>1</code>变为<code>0</code>，<code>x&amp;=(0xffffffff&lt;&lt;(n_-22))</code>，若向上舍入时最高位产生了进位，还需要加上进位<code>if(x&amp;(1&lt;&lt;n_)) ;else n_++;</code>。之后拼接浮点数就可以了。</p>
+<p><strong>函数实现：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">unsigned</span> <span class="hljs-title function_">floatInt2Float</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>  <span class="hljs-type">int</span> s_ = x&amp;<span class="hljs-number">0x80000000</span>;<br>  <span class="hljs-type">int</span> n_ = <span class="hljs-number">30</span>;<br>  <span class="hljs-keyword">if</span>(!x) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">if</span>(x==<span class="hljs-number">0x80000000</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0xcf000000</span>;<br>  <span class="hljs-keyword">if</span>(s_) x = ~x+<span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">while</span>(!(x&amp;(<span class="hljs-number">1</span>&lt;&lt;n_))) n_--;<br>  <span class="hljs-keyword">if</span>(n_&lt;=<span class="hljs-number">23</span>) x&lt;&lt;=(<span class="hljs-number">23</span>-n_);<br>  <span class="hljs-keyword">else</span>&#123;<br>    x+=(<span class="hljs-number">1</span>&lt;&lt;(n_<span class="hljs-number">-24</span>));<br>    <span class="hljs-keyword">if</span>(x&lt;&lt;(<span class="hljs-number">55</span>-n_)) ;<span class="hljs-keyword">else</span> x&amp;=(<span class="hljs-number">0xffffffff</span>&lt;&lt;(n_<span class="hljs-number">-22</span>));<br>    <span class="hljs-keyword">if</span>(x&amp;(<span class="hljs-number">1</span>&lt;&lt;n_))  ;<span class="hljs-keyword">else</span> n_++;<br>    x &gt;&gt;= (n_<span class="hljs-number">-23</span>);<br>  &#125;<br>  x=x&amp;<span class="hljs-number">0x007fffff</span>;<br>  n_=(n_+<span class="hljs-number">127</span>)&lt;&lt;<span class="hljs-number">23</span>;<br>  <span class="hljs-keyword">return</span> x|n_|s_;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、实验总结"><a href="#四、实验总结" class="headerlink" title="四、实验总结"></a>四、实验总结</h2><p>本次实验强化了我对异或逻辑的理解，比如<code>isEqual</code>这个题，我一开始的想法是利用<code>x-y</code>与0来判断，因为<code>-y=~y+1</code>，用的操作数太多了，与同学交流后，发现他直接用的异或，非常合适。生成掩码（<code>bitMask</code>）加强了我对有符号数移位操作的理解，为后面频繁的移位操作做了个铺垫。第一个难题是<code>bitCount</code>，这道题我一开始想利用移位操作，每移一位加一次，但是这样一来操作数大大的超出了40个。经过网上查找博客，发现可以利用移位操作将2位一组相加，然后4位一组相加，不需要一个一个的加，非常的巧妙。rempwr2这道题我的想法是对的，负数先当正数处理，最后加上负号，但是解法不够优雅，通过查找相关文章，发现了负数转成正数可以利用<code>x = (~s&amp;x) | (s&amp;(~x+1))</code>来转换这个小技巧，大大减少操作数。</p>
+<p><code>addOK</code>和<code>isLess</code>两个题差不多，主要提醒我要注意有符号数的符号位情况，溢出时负负得正，正正得负，很简单。浮点数的题，着重在于NaN和INF单独处理，位操作的细节很多，加强了我对浮点的位表示的理解。另外有偶数进位也要特别注意，有”四舍六入五成双”的口诀。</p>
+<p>实验趣味性很强，对软件工程专业来说，这么精细的位操作很少涉及，很有新鲜感，实验的难度设置也很合理，全都搞懂这些题，对机器的位表示的理解真的会提高不少，比在纸上做题要有意思的多，印象也更加深刻。不得不感叹CMU的计算机教育确实非常好。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CSAPP/" class="category-chain-item">CSAPP</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/X86/">#X86</a>
+      
+        <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">#汇编语言</a>
+      
+        <a href="/tags/C%E8%AF%AD%E8%A8%80/">#C语言</a>
+      
+        <a href="/tags/CSAPP/">#CSAPP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DataLab</div>
+      <div>https://akboom20.github.io/2022/11/12/DataLab/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>AKBoom</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/12/BombLab/" title="BombLab">
+                        <span class="hidden-mobile">BombLab</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
