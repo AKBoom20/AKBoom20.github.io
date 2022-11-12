@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://akboom20.github.io/Images/BombLab/phase7.png">
 <meta property="og:image" content="https://akboom20.github.io/Images/BombLab/secret_phase.png">
 <meta property="article:published_time" content="2022-11-12T11:43:33.000Z">
-<meta property="article:modified_time" content="2022-11-12T12:03:23.769Z">
+<meta property="article:modified_time" content="2022-11-12T12:41:04.135Z">
 <meta property="article:author" content="AKBoom">
 <meta property="article:tag" content="X86">
 <meta property="article:tag" content="汇编语言">
@@ -311,7 +311,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：7 分钟前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -432,7 +432,7 @@
 <p>接下来只需要结合基地址和<code>rax</code>的值计算出跳转地址即可，答案肯定是不止一个的，想直接得到答案的话取<code>rax</code>等于0就行了，我这里查看出所有能跳转的地址，给出所有答案。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) x/8xg 0x4025e0 # 从0x4025e0开始向后查看8个内存单元 16进制显示 一个内存单元8个字节<br>0x4025e0:	0x0000000000400f99	0x0000000000400fb8<br>0x4025f0:	0x0000000000400fda	0x0000000000400ffc<br>0x402600:	0x000000000040101b	0x0000000000401036<br>0x402610:	0x0000000000401051	0x000000000040106c<br></code></pre></td></tr></table></figure>
 
-<p>查出来跳转表有8个地址。分别对应case为0~8的情况。</p>
+<p>查出来跳转表有8个地址。分别对应case为0~7的情况。</p>
 <p>以<code>rax</code>等于0为例，那么第1个数就为0，进入case0，<code>eax</code>被赋值为122，第3个数必须等于101，跳出switch，第2个数等于eax寄存器的低八位，注意第2个数是会被当成“%c”也就是字符解释，字符存储的是8位的ASCII码，所以查表，找到ascii码为122对应的字符，是小写的“z”。所以得到了一组结果“0 z 101”。</p>
 <p>所有的结果是：</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-string">&quot;0 z 101&quot;</span><br><span class="hljs-string">&quot;1 Q 858&quot;</span><br><span class="hljs-string">&quot;2 S 425&quot;</span><br><span class="hljs-string">&quot;3 D 580&quot;</span><br><span class="hljs-string">&quot;4 J 641&quot;</span><br><span class="hljs-string">&quot;5 M 455&quot;</span><br><span class="hljs-string">&quot;6 T 144&quot;</span><br><span class="hljs-string">&quot;7 a 843&quot;</span><br></code></pre></td></tr></table></figure>
