@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://akboom20.github.io/Images/BombLab/phase7.png">
 <meta property="og:image" content="https://akboom20.github.io/Images/BombLab/secret_phase.png">
 <meta property="article:published_time" content="2022-11-12T11:43:33.000Z">
-<meta property="article:modified_time" content="2022-11-12T12:48:02.851Z">
+<meta property="article:modified_time" content="2022-11-14T13:53:44.137Z">
 <meta property="article:author" content="AKBoom">
 <meta property="article:tag" content="X86">
 <meta property="article:tag" content="汇编语言">
@@ -443,9 +443,9 @@
 <p>phase4的代码很简短，意思也很容易看懂，问题的关键在于<code>func4</code>这个函数，需要让这个函数返回31，从而确定我们要输入的第1个数。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs assembly">00000000004010a1 &lt;func4&gt;:<br>  4010a1:	53                   	push   %rbx            <br>  4010a2:	89 d0                	mov    %edx,%eax  		<br>  4010a4:	29 f0                	sub    %esi,%eax		<br>  4010a6:	89 c3                	mov    %eax,%ebx     	<br>  4010a8:	c1 eb 1f             	shr    $0x1f,%ebx       <br>  4010ab:	01 d8                	add    %ebx,%eax		<br>  4010ad:	d1 f8                	sar    %eax				<br>  4010af:	8d 1c 30             	lea    (%rax,%rsi,1),%ebx <br>  4010b2:	39 fb                	cmp    %edi,%ebx      	<br>  4010b4:	7e 0c                	jle    4010c2 &lt;func4+0x21&gt; <br>  4010b6:	8d 53 ff             	lea    -0x1(%rbx),%edx		<br>  4010b9:	e8 e3 ff ff ff       	callq  4010a1 &lt;func4&gt;		<br>  4010be:	01 d8                	add    %ebx,%eax			<br>  4010c0:	eb 10                	jmp    4010d2 &lt;func4+0x31&gt; <br>  4010c2:	89 d8                	mov    %ebx,%eax 			<br>  4010c4:	39 fb                	cmp    %edi,%ebx   <br>  4010c6:	7d 0a                	jge    4010d2 &lt;func4+0x31&gt;  <br>  4010c8:	8d 73 01             	lea    0x1(%rbx),%esi       <br>  4010cb:	e8 d1 ff ff ff       	callq  4010a1 &lt;func4&gt;   <br>  4010d0:	01 d8                	add    %ebx,%eax		<br>  4010d2:	5b                   	pop    %rbx<br>  4010d3:	c3                   	retq    <br></code></pre></td></tr></table></figure>
 
-<p><code>func4</code>里面嵌套了递归调用，不熟练的话，看递归调用的汇编非常容易犯的错是递归调用之后没有更新<code>eax</code>这个返回值寄存器。<code>func4</code>前面进行了一系列的寄存器赋值操作，其实翻译出来很简单，如果不熟悉，可以逐行翻译。实际上赋值操作多的汇编代码，直接翻译成C语言更清晰。</p>
-<p>比如设传过来的三个参数是(x,y,z)，因为出现了两个新寄存器<code>ebx</code>和<code>eax</code>，再设两个变量k和t。</p>
-<p>前几行翻译成C代码：</p>
+<p><code>func4</code>里面嵌套了递归调用，看递归调用的汇编非常容易犯的错是递归调用之后没有更新<code>eax</code>这个返回值寄存器。<code>func4</code>前面进行了一系列的寄存器赋值操作，不熟练的话还是逐行翻译。</p>
+<p>比如设传过来的三个参数是(x,y,z)，对出现了两个新寄存器<code>ebx</code>和<code>eax</code>，再设两个变量k和t。</p>
+<p>前几行，一行一行的翻译成C代码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">t = z;<br>t = t - y;<br>k = t;<br>k =&gt;&gt; <span class="hljs-number">31</span>；<span class="hljs-comment">//逻辑右移 最后只剩下最高位即符号位</span><br>t = t + k;<br>t =&gt;&gt;<span class="hljs-number">1</span>;<br>k = t + y;<br></code></pre></td></tr></table></figure>
 
 <p>注意<code>shr</code>指令是逻辑右移，高位补0，<code>sar</code>指令是算数右移高位补符号位。</p>
