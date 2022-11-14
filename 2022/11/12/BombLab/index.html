@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://akboom20.github.io/Images/BombLab/phase7.png">
 <meta property="og:image" content="https://akboom20.github.io/Images/BombLab/secret_phase.png">
 <meta property="article:published_time" content="2022-11-12T11:43:33.000Z">
-<meta property="article:modified_time" content="2022-11-14T13:53:44.137Z">
+<meta property="article:modified_time" content="2022-11-14T13:58:30.606Z">
 <meta property="article:author" content="AKBoom">
 <meta property="article:tag" content="X86">
 <meta property="article:tag" content="汇编语言">
@@ -474,7 +474,7 @@
 <p>可以看到20个单元超出了数组的范围了，数组共有16个单元，将20改成16就可以了：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) x/16dw 0x402620<br>0x402620 &lt;array.3162&gt;:	2	10	6	1<br>0x402630 &lt;array.3162+16&gt;:	12	16	9	3<br>0x402640 &lt;array.3162+32&gt;:	4	7	14	5<br>0x402650 &lt;array.3162+48&gt;:	11	8	15	13<br></code></pre></td></tr></table></figure>
 
-<p>数组的所有值已经找到了，现在只需要凑出6个数的和是50，然后对应出6个字符即可。注意<code>rdi</code>参数是指向<code>char[]</code>数组的第一个字符，所以每次指向<code>movzbl (%rbx,%rax,1),%ecx</code>相当于依次取字符串的第0，1，2，3，4，5，6位。当然做完与操作之后就只取ascii码的低4位了。</p>
+<p>数组的所有值已经找到了，现在只需要凑出6个数的和是50，然后对应出6个字符即可。注意<code>rdi</code>参数是指向<code>char[]</code>数组的第一个字符，所以每次执行<code>movzbl (%rbx,%rax,1),%ecx</code>相当于依次取字符串的第0，1，2，3，4，5，6位。当然做完与操作之后就只取ascii码的低4位了。</p>
 <p>我取的6个数是2，10，10，10，6，12。所以对应的偏移是0，1，1，1，2，4。现在只需要找出满足ascii码的低四位0，1，2，4的字符就行了。找到“011124”就是满足要求的。答案应该还有很多。输入的时候不能包含空格，因为空格也算一个字符。</p>
 <p>答案：“011124”。</p>
 <p>C代码：</p>
